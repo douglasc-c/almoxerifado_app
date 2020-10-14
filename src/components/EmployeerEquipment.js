@@ -1,0 +1,87 @@
+import React from 'react'
+import { StyleSheet, Dimensions, Text, View, TouchableOpacity } from 'react-native'
+import { RFPercentage } from 'react-native-responsive-fontsize'
+import { useNavigation } from '@react-navigation/native'
+
+import ArrowRigth from '../assets/Icons/ArrowRigth.svg'
+
+export default function EmployeerEquipment(props) {
+    const navigation = useNavigation()
+
+    return (
+        <View style={styles.container}>
+            <View style={styles.button2}>
+                <View style={styles.textButton}>
+                    <Text style={styles.model}>{props.employeer_id}</Text>
+                    <Text style={styles.information}>{props.status == 1 ? "Ativo" : "Inativo"}</Text>
+                    <Text style={styles.information}>Acesso: {props.access_password}</Text>
+                    <View style={styles.row}>
+                        <Text style={styles.information}>Funcionária: {props.name}</Text>
+                        <TouchableOpacity onPress={() => props.navi(props.item)}>
+                            <ArrowRigth
+                                width={DEVICE_WIDTH * .065}
+                                height={DEVICE_WIDTH * .065}
+                            />
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </View>
+        </View>
+    )
+}
+
+const DEVICE_WIDTH = Dimensions.get('window').width
+const DEVICE_HEIGHT = Dimensions.get('window').height
+
+const styles = StyleSheet.create({
+    container: {
+        width: DEVICE_WIDTH,
+    },
+    button2: {
+        borderRadius: 20,
+        width: DEVICE_WIDTH * .9,
+        height: DEVICE_HEIGHT * .17,
+        backgroundColor: '#232323',
+        marginTop: DEVICE_HEIGHT * .02,
+        alignSelf: 'center',
+    },
+    name: {
+        fontSize: RFPercentage(2.2),
+        color: '#FFFFFF',
+        marginBottom: DEVICE_HEIGHT * .015,
+        marginTop: DEVICE_HEIGHT * .02,
+        fontFamily: 'Montserrat-SemiBold',
+    },
+    textButton: {
+        width: DEVICE_WIDTH * .75,
+        alignSelf: 'center'
+    },
+    information: {
+        fontSize: RFPercentage(1.5),
+        color: '#FFFFFF',
+        textAlign: 'center',
+        alignSelf: 'flex-start',
+        marginVertical: DEVICE_HEIGHT * .01,
+        fontFamily: 'Montserrat-Regular',
+    },
+    information2: {
+        fontSize: RFPercentage(1.5),
+        color: '#FFFFFF',
+        textAlign: 'center',
+        alignSelf: 'flex-start',
+        marginBottom: DEVICE_HEIGHT * .015,
+        fontFamily: 'Montserrat-Regular',
+    },
+    information3: {
+        fontSize: RFPercentage(1.5),
+        color: '#FFFFFF',
+        textAlign: 'center',
+        alignSelf: 'flex-start',
+        fontFamily: 'Montserrat-Regular',
+    },
+    row: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        width: DEVICE_WIDTH * .77,
+    },
+})

@@ -1,0 +1,6 @@
+module Pods_intergalaxyApp_intergalaxyAppTests {
+  umbrella header "Pods-intergalaxyApp-intergalaxyAppTests-umbrella.h"
+
+  export *
+  module * { export * }
+}
