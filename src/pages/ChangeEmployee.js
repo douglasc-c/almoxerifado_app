@@ -6,7 +6,6 @@ import { useFocusEffect, useNavigation } from '@react-navigation/native'
 import api from '../services/api'
 import { useSelector } from 'react-redux'
 
-
 import ArrowLeft from '../assets/Icons/arrowLeft.svg'
 import Check from '../assets/Icons/Check.svg'
 import Editar from '../assets/Icons/Editar.svg'
@@ -273,10 +272,6 @@ export default function ChangeEmployee({ route }) {
                                 listEquipment.map((item, key) => (
                                     <EmployeerEquipment
                                         key={key}
-                                        model={item.model}
-                                        status={item.status}
-                                        access_password={item.access_password}
-                                        name={item.name}
                                         navi={navi}
                                         item={item}
                                     />

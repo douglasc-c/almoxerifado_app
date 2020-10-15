@@ -3,9 +3,13 @@ import { StyleSheet, Dimensions, TouchableOpacity, View, TextInput, Keyboard, Fl
 import { RFPercentage } from 'react-native-responsive-fontsize'
 import { useFocusEffect, useNavigation } from '@react-navigation/native'
 import { useDispatch, useSelector } from 'react-redux'
+import { debounce } from 'lodash'
 import api from '../services/api'
 
-import SetaEsquerda from '../assets/Icons/SetaEsquerda.svg'
+import ArrowLeft from '../assets/Icons/arrowLeft.svg'
+import Glass from '../assets/Icons/Glass.svg'
+import User from '../assets/Icons/User.svg'
+
 
 export default function ListOfEmployees() {
     const navigation = useNavigation()
@@ -14,14 +18,27 @@ export default function ListOfEmployees() {
     const [listEmployeer, setList] = useState([])
     const dispatch = useDispatch()
     const redux = useSelector(state => state)
+    let timeout;
 
-    function selected(item){
-        dispatch({type: "SELECTED", userSelected: item.id, userSelectedName: item.name})
+    function selected(item) {
+        dispatch({ type: "SELECTED", userSelected: item.id, userSelectedName: item.name })
         navigation.goBack()
     }
 
+    useEffect(() => {
+        const later = () => {
+            clearTimeout(timeout);
+            click()
+        };
+      
+        clearTimeout(timeout);
+        timeout = setTimeout(later, 500);
+    }, [search])
+
     async function setValidate() {
-        const response = await api.post('/api/getEmployeers', {})
+        const response = await api.post('/api/getEmployeers', {
+            search
+        })
             .then(res => {
                 if (res.data.status) {
                     return {
@@ -56,8 +73,8 @@ export default function ListOfEmployees() {
     return (
         <View style={styles.container}>
             <View style={styles.header}>
-                <TouchableOpacity onPress={() => navigation.goBack()} >
-                    <SetaEsquerda
+                <TouchableOpacity onPress={() => navigation.goBack()}>
+                    <ArrowLeft
                         width={DEVICE_WIDTH * .07}
                         height={DEVICE_WIDTH * .07}
                     />
@@ -74,7 +91,13 @@ export default function ListOfEmployees() {
                         onChangeText={(value) => setSearch(value)}
                         onSubmitEditing={() => Keyboard.dismiss()}
                     />
-                    <View></View>
+                    <TouchableOpacity>
+                        <Glass
+                            width={DEVICE_WIDTH * .05}
+                            height={DEVICE_WIDTH * .05}
+                            style={styles.icon}
+                        />
+                    </TouchableOpacity>
                 </View>
             </View>
             <View style={styles.line} />
@@ -84,7 +107,14 @@ export default function ListOfEmployees() {
                     data={listEmployeer}
                     renderItem={({ item }) => (
                         <TouchableOpacity onPress={() => selected(item)}>
-                            <Text style={styles.Txtname}>{item.name}</Text>
+                            <View style={styles.row}>
+                                <User
+                                    width={DEVICE_WIDTH * .05}
+                                    height={DEVICE_HEIGHT * .05}
+                                    style={styles.icon2}
+                                />
+                                <Text style={styles.Txtname}>{item.name}</Text>
+                            </View>
                             <View style={styles.line1} />
                         </TouchableOpacity>
                     )}
@@ -129,7 +159,7 @@ const styles = StyleSheet.create({
         letterSpacing: .2,
         fontSize: RFPercentage(1.5),
         paddingLeft: DEVICE_WIDTH * .05,
-        width: DEVICE_WIDTH,
+        width: DEVICE_WIDTH * .7,
         fontFamily: 'Montserrat-SemiBold',
         letterSpacing: .2,
     },
@@ -143,6 +173,8 @@ const styles = StyleSheet.create({
     list: {
         width: DEVICE_WIDTH * .9,
         marginTop: DEVICE_HEIGHT * .03,
+        flexDirection: 'row',
+        justifyContent: 'center',
 
     },
     line1: {
@@ -157,4 +189,14 @@ const styles = StyleSheet.create({
         height: DEVICE_HEIGHT * .002,
         marginTop: DEVICE_HEIGHT * .02
     },
+    icon: {
+        marginRight: DEVICE_WIDTH * .02,
+    },
+    icon2: {
+        marginRight: DEVICE_WIDTH * .02,
+        marginTop: DEVICE_HEIGHT * .004,
+    },
+    row: {
+        flexDirection: 'row'
+    }
 })

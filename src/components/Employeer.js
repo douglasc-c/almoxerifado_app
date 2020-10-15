@@ -12,10 +12,10 @@ export default function Employeer(props) {
                 <View style={styles.button2}>
                     <View style={styles.textButton}>
                         <Text style={styles.name}>{props.name}</Text>
-                        <Text style={styles.information2}>{props.document_number}</Text>
-                        <Text style={styles.information2}>{props.email}</Text>
-                        <Text style={styles.information2}>{props.phone}</Text>
-                        <Text style={styles.information2}>{props.function}</Text>
+                        <Text style={styles.information2}><Text style={styles.info}>CPF:</Text> {props.document_number}</Text>
+                        <Text style={styles.information2}><Text style={styles.info}>E-mail:</Text> {props.email}</Text>
+                        <Text style={styles.information2}><Text style={styles.info}>Telefone:</Text>  {props.phone}</Text>
+                        <Text style={styles.information2}><Text style={styles.info}>Função:</Text>  {props.function}</Text>
                     </View>
                 </View>
             </View>
@@ -77,4 +77,12 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         width: DEVICE_WIDTH * .77,
     },
+    info: {
+        fontSize: RFPercentage(1.5),
+        color: '#FFFFFF',
+        textAlign: 'center',
+        alignSelf: 'flex-start',
+        marginBottom: DEVICE_HEIGHT * .015,
+        fontFamily: 'Montserrat-SemiBold',
+    }
 })

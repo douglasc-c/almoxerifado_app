@@ -5,10 +5,9 @@ import RNPickerSelect from 'react-native-picker-select'
 import api from '../services/api'
 import { useSelector } from 'react-redux'
 import { useFocusEffect, useNavigation } from '@react-navigation/native'
-import ArrowRigth from '../assets/Icons/ArrowRigth.svg'
 
-
-import SetaEsquerda from '../assets/Icons/SetaEsquerda.svg'
+import ArrowRight from '../assets/Icons/ArrowRight.svg'
+import ArrowLeft from '../assets/Icons/arrowLeft.svg'
 import Check from '../assets/Icons/Check.svg'
 import Editar from '../assets/Icons/Editar.svg'
 
@@ -63,7 +62,7 @@ export default function PageEquipment({ route, navigation }) {
                 icloud_password: icloud_password,
                 status: status,
                 description: description,
-                employeer_id: idEmploy,
+                employeer_id: redux.userSelected,
             })
             .then(res => {
                 if (res.data.status) {
@@ -114,9 +113,11 @@ export default function PageEquipment({ route, navigation }) {
                                 width={DEVICE_WIDTH * .25}
                                 height={DEVICE_WIDTH * .25}
                             />
-                            <TouchableOpacity style={styles.buttonModal} onPress={() => { setModalVisible(!modalVisible), navigation.goBack() }}>
-                                <Text style={styles.textButtonModal}>ir para o inicio</Text>
-                            </TouchableOpacity>
+                            <View onTouchEnd={() => [setModalVisible(!modalVisible), navigation.goBack()]}>
+                                <TouchableOpacity style={styles.buttonModal} onPress={() => { }}>
+                                    <Text style={styles.textButtonModal}>ir para o inicio</Text>
+                                </TouchableOpacity>
+                            </View>
                         </View>
                     </View>
                 </Modal>
@@ -125,7 +126,7 @@ export default function PageEquipment({ route, navigation }) {
                 <View style={styles.button}>
                     <View style={styles.row}>
                         <TouchableOpacity onPress={() => navigation.goBack()}>
-                            <SetaEsquerda
+                            <ArrowLeft
                                 width={DEVICE_WIDTH * .07}
                                 height={DEVICE_WIDTH * .07}
                             />
@@ -270,14 +271,18 @@ export default function PageEquipment({ route, navigation }) {
                         {selected ?
                             <TouchableOpacity style={styles.buttonInput2} onPress={() => navigation.navigate('ListOfEmployees')}>
                                 <Text style={styles.Txtinput}>Funcionario</Text>
-                                <ArrowRigth
+                                <ArrowRight
                                     width={DEVICE_WIDTH * .065}
                                     height={DEVICE_WIDTH * .065}
                                 />
                             </TouchableOpacity>
                             :
                             <TouchableOpacity style={styles.buttonInput2} onPress={() => navigation.navigate('ListOfEmployees')}>
-                                <Text>NAME: {redux.userSelectedName} - id - {redux.userSelected}</Text>
+                                <Text style={styles.Txtinput}>Nome do Funcionário: {redux.userSelectedName}</Text>
+                                <ArrowRight
+                                    width={DEVICE_WIDTH * .065}
+                                    height={DEVICE_WIDTH * .065}
+                                />
                             </TouchableOpacity>
                         }
 
@@ -426,6 +431,14 @@ const styles = StyleSheet.create({
     },
     icon: {
         marginTop: DEVICE_HEIGHT * .008,
-
+    },
+    Txtinput: {
+        color: '#AEADB3',
+        letterSpacing: .2,
+        fontSize: RFPercentage(1.5),
+        paddingLeft: DEVICE_WIDTH * .05,
+        width: DEVICE_WIDTH * .8,
+        fontFamily: 'Montserrat-SemiBold',
+        letterSpacing: .2,
     },
 })

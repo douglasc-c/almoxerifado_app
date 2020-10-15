@@ -6,8 +6,7 @@ import { useNavigation } from '@react-navigation/native'
 import api from '../services/api'
 import { useSelector } from 'react-redux'
 
-
-import SetaEsquerda from '../assets/Icons/SetaEsquerda.svg'
+import ArrowLeft from '../assets/Icons/arrowLeft.svg'
 import Check from '../assets/Icons/Check.svg'
 
 export default function AddEmployee() {
@@ -107,7 +106,7 @@ export default function AddEmployee() {
                 <View style={styles.button}>
                     <View style={styles.row}>
                         <TouchableOpacity onPress={() => navigation.navigate('PageAdd')}>
-                            <SetaEsquerda
+                            <ArrowLeft
                                 width={DEVICE_WIDTH * .07}
                                 height={DEVICE_WIDTH * .07}
                             />
@@ -214,21 +213,7 @@ export default function AddEmployee() {
                                 onChangeText={(value) => setFuncao(value)}
                             />
                         </View>
-                        {/* <View style={styles.buttonInput2}>
-                            <TextInput
-                                placeholder='Id do Equipamento'
-                                style={styles.input}
-                                keyboardType="number-pad"
-                                autoCorrect={false}
-                                autoCapitalize="none"
-                                placeholderTextColor='#AEADB3'
-                                value={equipament_id}
-                                blurOnSubmit={false}
-                                maxLength={14}
-                                onChangeText={(value) => setEi(value)}
-                            />
-                        </View> */}
-
+                        
                         <TouchableOpacity style={styles.advanceButton} onPress={() => click()}>
                             <Text style={styles.text2}>adicionar funcionário</Text>
                         </TouchableOpacity>
@@ -269,6 +254,7 @@ const styles = StyleSheet.create({
         fontSize: RFPercentage(2.2),
         color: '#FFFFFF',
         fontFamily: 'Montserrat-Medium',
+        marginRight: DEVICE_WIDTH * .06,
     },
     buttonInput: {
         height: DEVICE_HEIGHT * .06,

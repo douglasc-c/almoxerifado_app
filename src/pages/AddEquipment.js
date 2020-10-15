@@ -6,10 +6,9 @@ import RNPickerSelect from 'react-native-picker-select'
 import api from '../services/api'
 import { useSelector } from 'react-redux'
 
-
-import SetaEsquerda from '../assets/Icons/SetaEsquerda.svg'
+import ArrowLeft from '../assets/Icons/arrowLeft.svg'
 import Check from '../assets/Icons/Check.svg'
-import ArrowRigth from '../assets/Icons/ArrowRigth.svg'
+import ArrowRight from '../assets/Icons/ArrowRight'
 
 export default function PageEquipment() {
     const navigation = useNavigation()
@@ -74,13 +73,13 @@ export default function PageEquipment() {
                 }
             })
             .catch(res => {
-                console.log('ahsodu dhsmessage - '+res.data.message)
+                // console.log('ahsodu dhsmessage - ' + res.data.message)
             })
         return response
     }
 
     async function click() {
-        console.log("token - "+redux.token)
+        // console.log("token - " + redux.token)
         const response = await setValidate()
         if (response.status)
             setModalVisible(!modalVisible)
@@ -91,7 +90,7 @@ export default function PageEquipment() {
     useFocusEffect(
         useCallback(() => {
             if (redux.userSelected != '') {
-                console.log('user id - '+redux.userSelected)
+                // console.log('user id - ' + redux.userSelected)
                 setSelected(false)
             }
         }, [redux.userSelected])
@@ -112,9 +111,11 @@ export default function PageEquipment() {
                                 width={DEVICE_WIDTH * .25}
                                 height={DEVICE_WIDTH * .25}
                             />
-                            <TouchableOpacity style={styles.buttonModal} onPress={() => { setModalVisible(!modalVisible), navigation.navigate('PageAdd') }}>
-                                <Text style={styles.textButtonModal}>ir para o inicio</Text>
-                            </TouchableOpacity>
+                            <View onTouchEnd={() => [setModalVisible(!modalVisible), navigation.navigate('PageAdd')]}>
+                                <TouchableOpacity style={styles.buttonModal}>
+                                    <Text style={styles.textButtonModal}>ir para o inicio</Text>
+                                </TouchableOpacity>
+                            </View>
                         </View>
                     </View>
                 </Modal>
@@ -123,7 +124,7 @@ export default function PageEquipment() {
                 <View style={styles.button}>
                     <View style={styles.row}>
                         <TouchableOpacity onPress={() => navigation.navigate('PageAdd')}>
-                            <SetaEsquerda
+                            <ArrowLeft
                                 width={DEVICE_WIDTH * .07}
                                 height={DEVICE_WIDTH * .07}
                             />
@@ -256,14 +257,18 @@ export default function PageEquipment() {
                         {selected ?
                             <TouchableOpacity style={styles.buttonInput2} onPress={() => navigation.navigate('ListOfEmployees')}>
                                 <Text style={styles.Txtinput}>Funcionario</Text>
-                                <ArrowRigth
+                                <ArrowRight
                                     width={DEVICE_WIDTH * .065}
                                     height={DEVICE_WIDTH * .065}
                                 />
                             </TouchableOpacity>
                             :
                             <TouchableOpacity style={styles.buttonInput2} onPress={() => navigation.navigate('ListOfEmployees')}>
-                                <Text>NAME: {redux.userSelectedName} - id - {redux.userSelected}</Text>
+                                <Text style={styles.Txtinput}>Nome do Funcionário: {redux.userSelectedName}</Text>
+                                <ArrowRight
+                                    width={DEVICE_WIDTH * .065}
+                                    height={DEVICE_WIDTH * .065}
+                                />
                             </TouchableOpacity>
                         }
 
@@ -306,6 +311,7 @@ const styles = StyleSheet.create({
         fontSize: RFPercentage(2.2),
         color: '#FFFFFF',
         fontFamily: 'Montserrat-Medium',
+        marginRight: DEVICE_WIDTH * .08,
     },
     buttonInput: {
         height: DEVICE_HEIGHT * .06,

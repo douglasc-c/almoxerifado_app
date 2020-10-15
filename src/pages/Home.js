@@ -55,23 +55,25 @@ export default function Home() {
             <View style={styles.button}>
                 <Text style={styles.title}>Funcionários adicionados</Text>
             </View>
-            <ScrollView>
-                {
-                    listEmployeer.map((item, key) => (
-                        <Employeer
-                            key={key}
-                            name={item.name}
-                            document_number={item.document_number}
-                            email={item.email}
-                            phone={item.phone}
-                            function={item.function}
-                            navi={navi}
-                            item={item}
-                        />
-
-                    ))
-                }
-            </ScrollView>
+            <View style={{height: DEVICE_HEIGHT * .8 }}>
+                <ScrollView showsVerticalScrollIndicator={false} style={{  }}>
+                    {
+                        listEmployeer.map((item, key) => (
+                            <Employeer
+                                key={key}
+                                name={item.name}
+                                document_number={item.document_number}
+                                email={item.email}
+                                phone={item.phone}
+                                function={item.function}
+                                navi={navi}
+                                item={item}
+                            />
+                        ))
+                    }
+                </ScrollView>
+                <View style={{height: DEVICE_HEIGHT * .04}}></View>
+            </View>
         </View>
     )
 }

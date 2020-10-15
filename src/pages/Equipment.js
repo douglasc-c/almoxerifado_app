@@ -54,22 +54,24 @@ export default function Equipment() {
             <View style={styles.button}>
                 <Text style={styles.title}>Equipamentos adicionados</Text>
             </View>
-            <ScrollView>
-                {
-                    listEquipment.map((item, key) => (
-                        <ButtonEquipment
-                            key={key}
-                            model={item.model}
-                            status={item.status}
-                            access_password={item.access_password}
-                            name={item.name}
-                            navi={navi}
-                            item={item}
-                        />
-
-                    ))
-                }
-            </ScrollView>
+            <View style={{ height: DEVICE_HEIGHT * .8 }}>
+                <ScrollView showsVerticalScrollIndicator={false}>
+                    {
+                        listEquipment.map((item, key) => (
+                            <ButtonEquipment
+                                key={key}
+                                model={item.model}
+                                status={item.status}
+                                access_password={item.access_password}
+                                name={item.name}
+                                navi={navi}
+                                item={item}
+                            />
+                        ))
+                    }
+                </ScrollView>
+                <View style={{height: DEVICE_HEIGHT * .04}}></View>
+            </View>
         </View>
     )
 }

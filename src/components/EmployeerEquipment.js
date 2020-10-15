@@ -3,30 +3,31 @@ import { StyleSheet, Dimensions, Text, View, TouchableOpacity } from 'react-nati
 import { RFPercentage } from 'react-native-responsive-fontsize'
 import { useNavigation } from '@react-navigation/native'
 
-import ArrowRigth from '../assets/Icons/ArrowRigth.svg'
+import ArrowRigth from '../assets/Icons/ArrowRight.svg'
+
 
 export default function EmployeerEquipment(props) {
     const navigation = useNavigation()
 
     return (
-        <View style={styles.container}>
-            <View style={styles.button2}>
-                <View style={styles.textButton}>
-                    <Text style={styles.model}>{props.employeer_id}</Text>
-                    <Text style={styles.information}>{props.status == 1 ? "Ativo" : "Inativo"}</Text>
-                    <Text style={styles.information}>Acesso: {props.access_password}</Text>
-                    <View style={styles.row}>
-                        <Text style={styles.information}>Funcionária: {props.name}</Text>
-                        <TouchableOpacity onPress={() => props.navi(props.item)}>
+        <TouchableOpacity onPress={() => props.navi(props.item)}>
+            <View style={styles.container}>
+                <View style={styles.button2}>
+                    <View style={styles.textButton}>
+                        <Text style={styles.model}> Modelo: {`${props.item.brand} - ${props.item.model}`}</Text>
+                        <Text style={styles.information}>Status: {props.item.status == 1 ? "Ativo" : "Inativo"}</Text>
+                        <Text style={styles.information}>Acesso: {props.item.access_password}</Text>
+                        <View style={styles.row}>
+                            <View></View>
                             <ArrowRigth
                                 width={DEVICE_WIDTH * .065}
                                 height={DEVICE_WIDTH * .065}
                             />
-                        </TouchableOpacity>
+                        </View>
                     </View>
                 </View>
             </View>
-        </View>
+        </TouchableOpacity>
     )
 }
 
@@ -55,6 +56,13 @@ const styles = StyleSheet.create({
     textButton: {
         width: DEVICE_WIDTH * .75,
         alignSelf: 'center'
+    },
+    model: {
+        fontSize: RFPercentage(2.2),
+        color: '#FFFFFF',
+        marginBottom: DEVICE_HEIGHT * .015,
+        marginTop: DEVICE_HEIGHT * .02,
+        fontFamily: 'Montserrat-SemiBold',
     },
     information: {
         fontSize: RFPercentage(1.5),
