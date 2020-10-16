@@ -3,19 +3,31 @@ import { StyleSheet, Dimensions, Text, View } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { RFPercentage } from 'react-native-responsive-fontsize'
 import { useNavigation } from '@react-navigation/native'
+import { useDispatch } from 'react-redux'
 
 
 export default function PageAdd() {
     const navigation = useNavigation()
+    const dispatch = useDispatch()
+
+    function addEmployee() {
+        dispatch({ type: "SELECTED", userSelected: "", userSelectedName: "" })
+        navigation.navigate('AddEmployee')
+    }
+
+    function addEquipment() {
+        dispatch({ type: "SELECTED", userSelected: "", userSelectedName: "" })
+        navigation.navigate('AddEquipment')
+    }
 
     return (
         <View style={styles.container}>
             <View style={styles.button}>
                 <Text style={styles.text}>Adicionar</Text>
-                <TouchableOpacity style={styles.buttonInput} onPress={() => navigation.navigate('AddEmployee')}>
+                <TouchableOpacity style={styles.buttonInput} onPress={() => addEmployee()}>
                     <Text style={styles.textButton}>Funcionario</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.buttonInput} onPress={() => navigation.navigate('AddEquipment')}>
+                <TouchableOpacity style={styles.buttonInput} onPress={() => addEquipment()}>
                     <Text style={styles.textButton}>Equipamento</Text>
                 </TouchableOpacity>
             </View>
@@ -60,8 +72,8 @@ const styles = StyleSheet.create({
     textButton: {
         fontSize: RFPercentage(2.4),
         color: '#FFFFFF',
-        letterSpacing: .2, 
+        letterSpacing: .2,
         fontFamily: 'Montserrat-Light'
-        
+
     },
 })

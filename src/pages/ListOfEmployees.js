@@ -66,6 +66,7 @@ export default function ListOfEmployees() {
 
     useFocusEffect(
         useCallback(() => {
+            dispatch({ type: "SELECTED", userSelected: "", userSelectedName: "" })
             click()
         }, [])
     )

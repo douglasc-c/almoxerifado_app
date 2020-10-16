@@ -29,12 +29,17 @@ export default function AddEmployee() {
             case "cpf":
                 value = value.replace(/\D/g, "")
                 value = value.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4")
-                setCpf(value)
+                setDn(value)
                 break
-            case "number":
+            case "rg":
+                value = value.replace(/\D/g, "")
+                value = value.replace(/(\d{2})(\d{3})(\d{3})(\d{1})/, "$1.$2.$3-$4")
+                setIn(value)
+                break
+            case "phone":
                 value = value.replace(/\D/g, "")
                 value = value.replace(/(\d{2})(\d{5})(\d{4})/, "($1)$2-$3")
-                setNumber(value)
+                setPhone(value)
                 break
             default:
                 console.log("error type switch")
@@ -140,7 +145,8 @@ export default function AddEmployee() {
                                 autoCorrect={false}
                                 autoCapitalize="words"
                                 value={identification_number}
-                                onChangeText={(value) => setIn(value)}
+                                maxLength={11}
+                                onChangeText={(value) => mask(value, "rg")}
                                 onSubmitEditing={() => Keyboard.dismiss()}
                             />
                         </View>
@@ -153,7 +159,8 @@ export default function AddEmployee() {
                                 autoCorrect={false}
                                 autoCapitalize="words"
                                 value={document_number}
-                                onChangeText={(value) => setDn(value)}
+                                maxLength={14}
+                                onChangeText={(value) => mask(value, "cpf")}
                                 onSubmitEditing={() => Keyboard.dismiss()}
                             />
                         </View>
@@ -166,7 +173,6 @@ export default function AddEmployee() {
                                 autoCapitalize="none"
                                 placeholderTextColor='#AEADB3'
                                 value={email}
-                                maxLength={14}
                                 blurOnSubmit={false}
                                 onChangeText={(value) => setEmail(value)}
                             />
@@ -175,13 +181,12 @@ export default function AddEmployee() {
                             <TextInput
                                 placeholder='Endereço'
                                 style={styles.input}
-                                keyboardType="number-pad"
+                                keyboardType="default"
+                                autoCapitalize="words"
                                 autoCorrect={false}
-                                autoCapitalize="none"
                                 placeholderTextColor='#AEADB3'
                                 value={address}
                                 blurOnSubmit={false}
-                                maxLength={14}
                                 onChangeText={(value) => setAddress(value)}
                             />
                         </View>
@@ -196,20 +201,19 @@ export default function AddEmployee() {
                                 value={phone}
                                 blurOnSubmit={false}
                                 maxLength={14}
-                                onChangeText={(value) => setPhone(value)}
+                                onChangeText={(value) => mask(value, "phone")}
                             />
                         </View>
                         <View style={styles.buttonInput2}>
                             <TextInput
                                 placeholder='Função' 
                                 style={styles.input}
-                                keyboardType="number-pad"
+                                keyboardType="default"
                                 autoCorrect={false}
-                                autoCapitalize="none"
+                                autoCapitalize="words"
                                 placeholderTextColor='#AEADB3'
                                 value={funcao}
                                 blurOnSubmit={false}
-                                maxLength={14}
                                 onChangeText={(value) => setFuncao(value)}
                             />
                         </View>

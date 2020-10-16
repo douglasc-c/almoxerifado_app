@@ -46,6 +46,7 @@ export default function Home() {
 
     useFocusEffect(
         useCallback(() => {
+            dispatch({ type: "SELECTED", userSelected: "", userSelectedName: "" })
             click()
         }, [])
     )

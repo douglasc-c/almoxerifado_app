@@ -24,7 +24,7 @@ export default function PageEquipment({ route, navigation }) {
     const [description, setDescription] = useState(item.description)
     const [idEmploy, setIdemployeer] = useState(item.employeer_id.toString())
     const [modalVisible, setModalVisible] = useState(false)
-    const [show, setShow] = useState(false)
+    const [edit, setEdit] = useState(false)
     const redux = useSelector(state => state)
     const [selected, setSelected] = useState(true)
 
@@ -48,7 +48,7 @@ export default function PageEquipment({ route, navigation }) {
         }
     }
 
-    async function Edit() {
+    async function setValidate() {
         const response = await api.post('/api/editEquipament',
             {
                 id: item.id,
@@ -81,7 +81,7 @@ export default function PageEquipment({ route, navigation }) {
     }
 
     async function click() {
-        const response = await Edit()
+        const response = await setValidate()
         if (response.status) {
             setModalVisible(!modalVisible)
 
@@ -132,7 +132,7 @@ export default function PageEquipment({ route, navigation }) {
                             />
                         </TouchableOpacity>
                         <Text style={styles.title}>Alterar Equipamentos</Text>
-                        <TouchableOpacity onPress={() => setShow(!show)}>
+                        <TouchableOpacity onPress={() => setEdit(!edit)}>
                             <Editar
                                 width={DEVICE_WIDTH * .055}
                                 height={DEVICE_WIDTH * .055}
@@ -142,10 +142,10 @@ export default function PageEquipment({ route, navigation }) {
                 </View>
                 <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"}>
                     <ScrollView showsVerticalScrollIndicator={false}>
-                        <View style={styles.buttonInput}>
+                        <View style={edit ? styles.edit : styles.buttonInput}>
                             <TextInput
-                                style={styles.input}
-                                placeholderTextColor='#AEADB3'
+                                style={edit ? [styles.input,{color: '#fff'}] : styles.input}
+                                placeholderTextColor={edit ? '#fff' : '#AEADB3'}
                                 placeholder='Marca'
                                 keyboardType="default"
                                 autoCorrect={false}
@@ -153,14 +153,14 @@ export default function PageEquipment({ route, navigation }) {
                                 value={brand}
                                 onChangeText={(value) => setBrand(value)}
                                 onSubmitEditing={() => Keyboard.dismiss()}
-                                editable={show ? true : false}
+                                editable={edit}
                             />
                         </View>
 
-                        <View style={styles.buttonInput2}>
+                        <View style={edit ? styles.edit2 : styles.buttonInput2}>
                             <TextInput
-                                style={styles.input}
-                                placeholderTextColor='#AEADB3'
+                                style={edit ? [styles.input,{color: '#fff'}] : styles.input}
+                                placeholderTextColor={edit ? '#fff' : '#AEADB3'}
                                 placeholder='Modelo'
                                 keyboardType="default"
                                 autoCorrect={false}
@@ -168,7 +168,7 @@ export default function PageEquipment({ route, navigation }) {
                                 value={model}
                                 onChangeText={(value) => setModel(value)}
                                 onSubmitEditing={() => Keyboard.dismiss()}
-                                editable={show ? true : false}
+                                editable={edit}
                             />
                         </View>
                         <View style={styles.buttonInput2}>
@@ -182,103 +182,103 @@ export default function PageEquipment({ route, navigation }) {
                                 value={serial_number}
                                 onChangeText={(value) => setSnumber(value)}
                                 onSubmitEditing={() => Keyboard.dismiss()}
-                                editable={show ? true : false}
+                                editable={false}
                             />
                         </View>
-                        <View style={styles.buttonInput2}>
+                        <View style={edit ? styles.edit2 : styles.buttonInput2}>
                             <TextInput
                                 placeholder='Acessórios'
-                                style={styles.input}
+                                style={edit ? [styles.input,{color: '#fff'}] : styles.input}
                                 keyboardType="default"
                                 autoCorrect={false}
                                 autoCapitalize="none"
-                                placeholderTextColor='#AEADB3'
+                                placeholderTextColor={edit ? '#fff' : '#AEADB3'}
                                 value={accessories}
                                 blurOnSubmit={false}
                                 onChangeText={(value) => setAccessories(value)}
-                                editable={show ? true : false}
+                                editable={edit}
                             />
                         </View>
-                        <View style={styles.buttonInput2}>
+                        <View style={edit ? styles.edit2 : styles.buttonInput2}>
                             <TextInput
                                 placeholder='Senha de acesso'
-                                style={styles.input}
+                                style={edit ? [styles.input,{color: '#fff'}] : styles.input}
                                 autoCorrect={false}
                                 autoCapitalize="none"
-                                placeholderTextColor='#AEADB3'
+                                placeholderTextColor={edit ? '#fff' : '#AEADB3'}
                                 value={access_password}
                                 blurOnSubmit={false}
                                 onChangeText={(value) => setApassword(value)}
-                                editable={show ? true : false}
+                                editable={edit}
                             />
                         </View>
-                        <View style={styles.buttonInput2}>
+                        <View style={edit ? styles.edit2 : styles.buttonInput2}>
                             <TextInput
                                 placeholder='Email iCloud'
-                                style={styles.input}
+                                style={edit ? [styles.input,{color: '#fff'}] : styles.input}
                                 keyboardType="default"
                                 autoCorrect={false}
                                 autoCapitalize="none"
-                                placeholderTextColor='#AEADB3'
+                                placeholderTextColor={edit ? '#fff' : '#AEADB3'}
                                 value={icloud_email}
                                 blurOnSubmit={false}
                                 onChangeText={(value) => setIcemail(value)}
-                                editable={show ? true : false}
+                                editable={edit}
                             />
                         </View>
-                        <View style={styles.buttonInput2}>
+                        <View style={edit ? styles.edit2 : styles.buttonInput2}>
                             <TextInput
                                 placeholder='Senha do icloud'
-                                style={styles.input}
+                                style={edit ? [styles.input,{color: '#fff'}] : styles.input}
                                 keyboardType="default"
                                 autoCorrect={false}
                                 autoCapitalize="none"
-                                placeholderTextColor='#AEADB3'
+                                placeholderTextColor={edit ? '#fff' : '#AEADB3'}
                                 value={icloud_password}
                                 blurOnSubmit={false}
                                 onChangeText={(value) => setIcpassword(value)}
-                                editable={show ? true : false}
+                                editable={edit}
                             />
                         </View>
-                        <View style={styles.buttonInput2}>
+                        <View style={edit ? styles.edit2 : styles.buttonInput2}>
                             <TextInput
                                 placeholder='Status'
-                                style={styles.input}
+                                style={edit ? [styles.input,{color: '#fff'}] : styles.input}
                                 keyboardType="default"
                                 autoCorrect={false}
                                 autoCapitalize="none"
-                                placeholderTextColor='#AEADB3'
+                                placeholderTextColor={edit ? '#fff' : '#AEADB3'}
                                 value={status}
                                 blurOnSubmit={false}
                                 onChangeText={(value) => setStatus(value)}
-                                editable={show ? true : false}
+                                editable={edit}
                             />
                         </View>
-                        <View style={styles.buttonInput2}>
+                        <View style={edit ? styles.edit2 : styles.buttonInput2}>
                             <TextInput
                                 placeholder='Descrição'
-                                style={styles.input}
+                                style={edit ? [styles.input,{color: '#fff'}] : styles.input}
                                 keyboardType="default"
                                 autoCorrect={false}
                                 autoCapitalize="none"
-                                placeholderTextColor='#AEADB3'
+                                placeholderTextColor={edit ? '#fff' : '#AEADB3'}
                                 value={description}
                                 blurOnSubmit={false}
                                 onChangeText={(value) => setDescription(value)}
-                                editable={show ? true : false}
+                                editable={edit}
                             />
                         </View>
                         {selected ?
-                            <TouchableOpacity style={styles.buttonInput2} onPress={() => navigation.navigate('ListOfEmployees')}>
-                                <Text style={styles.Txtinput}>Funcionario</Text>
+                            <TouchableOpacity style={edit ? styles.edit2 : styles.buttonInput2} onPress={() => {edit ? navigation.navigate('ListOfEmployees') : {}}}>
+                                <Text style={edit ? [styles.Txtinput,{color: '#fff'}] : styles.Txtinput}>Funcionario</Text>
                                 <ArrowRight
                                     width={DEVICE_WIDTH * .065}
                                     height={DEVICE_WIDTH * .065}
                                 />
                             </TouchableOpacity>
                             :
-                            <TouchableOpacity style={styles.buttonInput2} onPress={() => navigation.navigate('ListOfEmployees')}>
-                                <Text style={styles.Txtinput}>Nome do Funcionário: {redux.userSelectedName}</Text>
+                            <TouchableOpacity style={edit ? styles.edit2 : styles.buttonInput2} onPress={() => {edit ? navigation.navigate('ListOfEmployees') : {}}}>
+                                <Text style={edit ? [styles.Txtinput,{color: '#fff'}] : styles.Txtinput}>Nome do Funcionário: {redux.userSelectedName}</Text>
                                 <ArrowRight
                                     width={DEVICE_WIDTH * .065}
                                     height={DEVICE_WIDTH * .065}
@@ -342,6 +342,26 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         alignItems: 'center',
         backgroundColor: '#232323',
+        borderRadius: 40,
+        flexDirection: 'row',
+        marginTop: DEVICE_HEIGHT * .02,
+    },
+    edit: {
+        height: DEVICE_HEIGHT * .06,
+        width: DEVICE_WIDTH * .9,
+        alignSelf: 'center',
+        alignItems: 'center',
+        backgroundColor: '#4F4F4F',
+        borderRadius: 40,
+        flexDirection: 'row',
+        marginTop: DEVICE_HEIGHT * .03,
+    },
+    edit2: {
+        height: DEVICE_HEIGHT * .06,
+        width: DEVICE_WIDTH * .9,
+        alignSelf: 'center',
+        alignItems: 'center',
+        backgroundColor: '#4F4F4F',
         borderRadius: 40,
         flexDirection: 'row',
         marginTop: DEVICE_HEIGHT * .02,

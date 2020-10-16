@@ -23,7 +23,7 @@ export default function ChangeEmployee({ route }) {
     const [phone, setPhone] = useState(item.phone)
     const [funcao, setFuncao] = useState(item.function)
     const [modalVisible, setModalVisible] = useState(false)
-    const [show, setShow] = useState()
+    const [edit, setEdit] = useState(false)
     const [listEquipment, setEquipment] = useState([])
     const redux = useSelector(state => state)
 
@@ -38,12 +38,17 @@ export default function ChangeEmployee({ route }) {
             case "cpf":
                 value = value.replace(/\D/g, "")
                 value = value.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4")
-                setCpf(value)
+                setDn(value)
                 break
-            case "number":
+            case "rg":
+                value = value.replace(/\D/g, "")
+                value = value.replace(/(\d{2})(\d{3})(\d{3})(\d{1})/, "$1.$2.$3-$4")
+                setIn(value)
+                break
+            case "phone":
                 value = value.replace(/\D/g, "")
                 value = value.replace(/(\d{2})(\d{5})(\d{4})/, "($1)$2-$3")
-                setNumber(value)
+                setPhone(value)
                 break
             default:
                 console.log("error type switch")
@@ -52,7 +57,7 @@ export default function ChangeEmployee({ route }) {
     }
 
 
-    async function Edit() {
+    async function setValidate() {
         const response = await api.post('/api/getEmployeer',
             {
                 id: item.id,
@@ -108,7 +113,7 @@ export default function ChangeEmployee({ route }) {
     }
 
     async function click() {
-        const response = await Edit()
+        const response = await setValidate()
         if (response.status) {
             setEquipment(response.equipament)
         }
@@ -154,7 +159,7 @@ export default function ChangeEmployee({ route }) {
                             />
                         </TouchableOpacity>
                         <Text style={styles.title}>Alterar Funcionário</Text>
-                        <TouchableOpacity onPress={() => setShow(!show)}>
+                        <TouchableOpacity onPress={() => setEdit(true)}>
                             <Editar
                                 width={DEVICE_WIDTH * .055}
                                 height={DEVICE_WIDTH * .055}
@@ -164,10 +169,10 @@ export default function ChangeEmployee({ route }) {
                 </View>
                 <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"}>
                     <ScrollView showsVerticalScrollIndicator={false}>
-                        <View style={styles.buttonInput}>
+                        <View style={edit ? styles.edit : styles.buttonInput}>
                             <TextInput
-                                style={styles.input}
-                                placeholderTextColor='#AEADB3'
+                                style={edit ? [styles.input,{color: '#fff'}] : styles.input }
+                                placeholderTextColor={edit ? '#fff' : '#AEADB3'}
                                 placeholder='Nome completo'
                                 keyboardType="default"
                                 autoCorrect={false}
@@ -175,7 +180,7 @@ export default function ChangeEmployee({ route }) {
                                 value={name}
                                 onChangeText={(value) => setName(value)}
                                 onSubmitEditing={() => Keyboard.dismiss()}
-                                editable={show ? true : false}
+                                editable={edit}
                             />
                         </View>
 
@@ -187,10 +192,11 @@ export default function ChangeEmployee({ route }) {
                                 keyboardType="default"
                                 autoCorrect={false}
                                 autoCapitalize="words"
+                                maxLength={11}
                                 value={identification_number}
-                                onChangeText={(value) => setIn(value)}
+                                onChangeText={(value) => mask(value, "rg")}
                                 onSubmitEditing={() => Keyboard.dismiss()}
-                                editable={show ? true : false}
+                                editable={false}
                             />
                         </View>
                         <View style={styles.buttonInput2}>
@@ -202,69 +208,67 @@ export default function ChangeEmployee({ route }) {
                                 autoCorrect={false}
                                 autoCapitalize="words"
                                 value={document_number}
-                                onChangeText={(value) => setDn(value)}
+                                maxLength={14}
+                                onChangeText={(value) => mask(value, "cpf")}
                                 onSubmitEditing={() => Keyboard.dismiss()}
-                                editable={show ? true : false}
+                                editable={false}
                             />
                         </View>
-                        <View style={styles.buttonInput2}>
+                        <View style={edit ? styles.edit2 : styles.buttonInput2}>
                             <TextInput
                                 placeholder='Email'
-                                style={styles.input}
+                                style={edit ? [styles.input,{color: '#fff'}] : styles.input }
                                 keyboardType="default"
                                 autoCorrect={false}
                                 autoCapitalize="none"
-                                placeholderTextColor='#AEADB3'
+                                placeholderTextColor={edit ? '#fff' : '#AEADB3'}
                                 value={email}
-                                maxLength={14}
                                 blurOnSubmit={false}
                                 onChangeText={(value) => setEmail(value)}
-                                editable={show ? true : false}
+                                editable={edit}
                             />
                         </View>
-                        <View style={styles.buttonInput2}>
+                        <View style={edit ? styles.edit2 : styles.buttonInput2}>
                             <TextInput
                                 placeholder='Endereço'
-                                style={styles.input}
-                                keyboardType="number-pad"
+                                style={edit ? [styles.input,{color: '#fff'}] : styles.input }
+                                keyboardType="default"
                                 autoCorrect={false}
-                                autoCapitalize="none"
-                                placeholderTextColor='#AEADB3'
+                                autoCapitalize="words"
+                                placeholderTextColor={edit ? '#fff' : '#AEADB3'}
                                 value={address}
                                 blurOnSubmit={false}
-                                maxLength={14}
                                 onChangeText={(value) => setAddress(value)}
-                                editable={show ? true : false}
+                                editable={edit}
                             />
                         </View>
-                        <View style={styles.buttonInput2}>
+                        <View style={edit ? styles.edit2 : styles.buttonInput2}>
                             <TextInput
                                 placeholder='Telefone'
-                                style={styles.input}
+                                style={edit ? [styles.input,{color: '#fff'}] : styles.input }
                                 keyboardType="number-pad"
                                 autoCorrect={false}
                                 autoCapitalize="none"
-                                placeholderTextColor='#AEADB3'
+                                placeholderTextColor={edit ? '#fff' : '#AEADB3'}
                                 value={phone}
                                 blurOnSubmit={false}
                                 maxLength={14}
-                                onChangeText={(value) => setPhone(value)}
-                                editable={show ? true : false}
+                                onChangeText={(value) => mask(value, "phone")}
+                                editable={edit}
                             />
                         </View>
-                        <View style={styles.buttonInput2}>
+                        <View style={edit ? styles.edit2 : styles.buttonInput2}>
                             <TextInput
                                 placeholder='Função'
-                                style={styles.input}
-                                keyboardType="number-pad"
+                                style={edit ? [styles.input,{color: '#fff'}] : styles.input }
+                                keyboardType="default"
                                 autoCorrect={false}
-                                autoCapitalize="none"
-                                placeholderTextColor='#AEADB3'
+                                autoCapitalize="words"
+                                placeholderTextColor={edit ? '#fff' : '#AEADB3'}
                                 value={funcao}
                                 blurOnSubmit={false}
-                                maxLength={14}
                                 onChangeText={(value) => setFuncao(value)}
-                                editable={show ? true : false}
+                                editable={edit}
                             />
                         </View>
                         <View>
@@ -336,6 +340,26 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         alignItems: 'center',
         backgroundColor: '#232323',
+        borderRadius: 40,
+        flexDirection: 'row',
+        marginTop: DEVICE_HEIGHT * .02,
+    },
+    edit: {
+        height: DEVICE_HEIGHT * .06,
+        width: DEVICE_WIDTH * .9,
+        alignSelf: 'center',
+        alignItems: 'center',
+        backgroundColor: '#4F4F4F',
+        borderRadius: 40,
+        flexDirection: 'row',
+        marginTop: DEVICE_HEIGHT * .03,
+    },
+    edit2: {
+        height: DEVICE_HEIGHT * .06,
+        width: DEVICE_WIDTH * .9,
+        alignSelf: 'center',
+        alignItems: 'center',
+        backgroundColor: '#4F4F4F',
         borderRadius: 40,
         flexDirection: 'row',
         marginTop: DEVICE_HEIGHT * .02,

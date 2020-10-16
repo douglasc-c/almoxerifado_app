@@ -11,8 +11,8 @@ import Lock from '../assets/Icons/Lock.svg'
 
 export default function Login() {
     const navigation = useNavigation()
-    const [email, setEmail] = useState('user@intergalaxy.dev')
-    const [password, setPassword] = useState('user')
+    const [email, setEmail] = useState()
+    const [password, setPassword] = useState()
     const dispatch = useDispatch()
     const redux = useSelector(state => state)
 

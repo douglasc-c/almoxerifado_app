@@ -2,12 +2,18 @@ import React from 'react'
 import { StyleSheet, Dimensions, Text, View, TouchableOpacity } from 'react-native'
 import { RFPercentage } from 'react-native-responsive-fontsize'
 import { useNavigation } from '@react-navigation/native'
+import { useDispatch } from 'react-redux'
 
 export default function Employeer(props) {
     const navigation = useNavigation()
+    const dispatch = useDispatch()
+
+    function selectEmployee(item) {
+        dispatch({ type: "SELECTED", userSelected: item.id, userSelectedName: item.name })
+    }
 
     return (
-        <TouchableOpacity onPress={() => props.navi(props.item)}>
+        <TouchableOpacity onPress={() => [selectEmployee(props.item), props.navi(props.item)]}>
             <View style={styles.container}>
                 <View style={styles.button2}>
                     <View style={styles.textButton}>

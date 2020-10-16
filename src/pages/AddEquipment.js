@@ -4,7 +4,7 @@ import { RFPercentage } from 'react-native-responsive-fontsize'
 import { useFocusEffect, useNavigation } from '@react-navigation/native'
 import RNPickerSelect from 'react-native-picker-select'
 import api from '../services/api'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 
 import ArrowLeft from '../assets/Icons/arrowLeft.svg'
 import Check from '../assets/Icons/Check.svg'
@@ -22,27 +22,9 @@ export default function PageEquipment() {
     const [status, setStatus] = useState()
     const [description, setDescription] = useState()
     const [modalVisible, setModalVisible] = useState(false)
-    const [selected, setSelected] = useState(true)
     const redux = useSelector(state => state)
+    const dispatch = useDispatch()
 
-    function mask(input, type) {
-        let value = input
-        switch (type) {
-            case "cpf":
-                value = value.replace(/\D/g, "")
-                value = value.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4")
-                setCpf(value)
-                break
-            case "number":
-                value = value.replace(/\D/g, "")
-                value = value.replace(/(\d{2})(\d{5})(\d{4})/, "($1).$2-$3")
-                setNumber(value)
-                break
-            default:
-                console.log("error type switch")
-                break
-        }
-    }
 
     async function setValidate() {
         const response = await api.post('/api/addEquipament',
@@ -61,11 +43,13 @@ export default function PageEquipment() {
             })
             .then(res => {
                 if (res.data.status) {
+                    dispatch({ type: "SELECTED", userSelected: "", userSelectedName: "" })
                     return {
                         status: res.data.status,
                         text: res.data.message
                     }
                 } else {
+                    dispatch({ type: "SELECTED", userSelected: "", userSelectedName: "" })
                     return {
                         status: res.data.status,
                         text: res.data.message
@@ -73,7 +57,7 @@ export default function PageEquipment() {
                 }
             })
             .catch(res => {
-                // console.log('ahsodu dhsmessage - ' + res.data.message)
+
             })
         return response
     }
@@ -87,14 +71,15 @@ export default function PageEquipment() {
             Alert.alert(response.text)
     }
 
-    useFocusEffect(
-        useCallback(() => {
-            if (redux.userSelected != '') {
-                // console.log('user id - ' + redux.userSelected)
-                setSelected(false)
-            }
-        }, [redux.userSelected])
-    )
+
+    // useFocusEffect(
+    //     useCallback(() => {
+    //         if (redux.userSelected != '') {
+    //             // console.log('user id - ' + redux.userSelected)
+    //             // setSelected(false)
+    //         }
+    //     }, [redux.userSelected])
+    // )
 
     return (
         <>
@@ -181,7 +166,7 @@ export default function PageEquipment() {
                                 style={styles.input}
                                 keyboardType="default"
                                 autoCorrect={false}
-                                autoCapitalize="none"
+                                autoCapitalize="words"
                                 placeholderTextColor='#AEADB3'
                                 value={accessories}
                                 blurOnSubmit={false}
@@ -205,7 +190,7 @@ export default function PageEquipment() {
                             <TextInput
                                 placeholder='Email iCloud'
                                 style={styles.input}
-                                keyboardType="number-pad"
+                                keyboardType="default"
                                 autoCorrect={false}
                                 autoCapitalize="none"
                                 placeholderTextColor='#AEADB3'
@@ -244,9 +229,9 @@ export default function PageEquipment() {
                             <TextInput
                                 placeholder='Descrição'
                                 style={styles.input}
-                                keyboardType="number-pad"
+                                keyboardType="default"
                                 autoCorrect={false}
-                                autoCapitalize="none"
+                                autoCapitalize="words"
                                 placeholderTextColor='#AEADB3'
                                 value={description}
                                 blurOnSubmit={false}
@@ -254,23 +239,15 @@ export default function PageEquipment() {
                             />
                         </View>
 
-                        {selected ?
-                            <TouchableOpacity style={styles.buttonInput2} onPress={() => navigation.navigate('ListOfEmployees')}>
-                                <Text style={styles.Txtinput}>Funcionario</Text>
-                                <ArrowRight
-                                    width={DEVICE_WIDTH * .065}
-                                    height={DEVICE_WIDTH * .065}
-                                />
-                            </TouchableOpacity>
-                            :
-                            <TouchableOpacity style={styles.buttonInput2} onPress={() => navigation.navigate('ListOfEmployees')}>
-                                <Text style={styles.Txtinput}>Nome do Funcionário: {redux.userSelectedName}</Text>
-                                <ArrowRight
-                                    width={DEVICE_WIDTH * .065}
-                                    height={DEVICE_WIDTH * .065}
-                                />
-                            </TouchableOpacity>
-                        }
+                        
+                        <TouchableOpacity style={styles.buttonInput2} onPress={() => navigation.navigate('ListOfEmployees')}>
+                            <Text style={styles.Txtinput}>Nome do Funcionário: {redux.userSelectedName}</Text>
+                            <ArrowRight
+                                width={DEVICE_WIDTH * .065}
+                                height={DEVICE_WIDTH * .065}
+                            />
+                        </TouchableOpacity>
+                        
 
                         <TouchableOpacity style={styles.advanceButton} onPress={() => click()}>
                             <Text style={styles.text2}>adicionar equipamentos</Text>

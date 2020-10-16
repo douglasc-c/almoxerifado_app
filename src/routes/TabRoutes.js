@@ -46,6 +46,7 @@ function ComputerStack() {
         <Stack.Navigator>
             <Stack.Screen name="Equipment" component={Equipment} options={{ headerShown: false }} />
             <Stack.Screen name="ChangeEquipment" component={ChangeEquipment} options={{ headerShown: false }} />
+            <Stack.Screen name="ListOfEmployees" component={ListOfEmployees} options={{ headerShown: false }} />
         </Stack.Navigator>
     )
 }

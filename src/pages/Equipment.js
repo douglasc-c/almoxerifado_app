@@ -3,6 +3,7 @@ import { StyleSheet, Dimensions, Text, View, ScrollView } from 'react-native'
 import { RFPercentage } from 'react-native-responsive-fontsize'
 import { useFocusEffect, useNavigation } from '@react-navigation/native'
 import api from '../services/api'
+import { useDispatch, useSelector } from 'react-redux'
 
 import ButtonEquipment from '../components/ButtonEquipment'
 
@@ -10,8 +11,10 @@ export default function Equipment() {
     const navigation = useNavigation()
     const [listEquipment, setList] = useState([])
     const [listUser, setListUser] = useState([])
+    const dispatch = useDispatch()
 
     function navi(item) {
+        dispatch({ type: "SELECTED", userSelected: item.employeer.id, userSelectedName: item.employeer.name })
         navigation.navigate('ChangeEquipment', { item: item })
     }
 

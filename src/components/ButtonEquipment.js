@@ -11,10 +11,10 @@ export default function ButtonEquipment(props) {
             <View style={styles.container}>
                 <View style={styles.button2}>
                     <View style={styles.textButton}>
-                        <Text style={styles.model}><Text style={styles.info}>Modelo: </Text> {props.model}</Text>
+                        <Text style={styles.model}><Text style={styles.info}>Modelo: </Text> {`${props.item.brand} - ${props.item.model}`}</Text>
                         <Text style={styles.information}><Text style={styles.info}>Status: </Text> {props.status == 1 ? "Ativo" : "Inativo"}</Text>
                         <Text style={styles.information}><Text style={styles.info}>Acesso: </Text>{props.access_password}</Text>
-                        <Text style={styles.information}><Text style={styles.info}>Funcionária: </Text>{props.name}</Text>
+                        <Text style={styles.information}><Text style={styles.info}>Funcionária: </Text>{props.item.employeer.name}</Text>
                     </View>
                 </View>
             </View>

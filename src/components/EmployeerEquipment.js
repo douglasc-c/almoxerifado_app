@@ -14,7 +14,7 @@ export default function EmployeerEquipment(props) {
             <View style={styles.container}>
                 <View style={styles.button2}>
                     <View style={styles.textButton}>
-                        <Text style={styles.model}> Modelo: {`${props.item.brand} - ${props.item.model}`}</Text>
+                        <Text style={styles.model}><Text style={styles.info}> Modelo:</Text> {`${props.item.brand} - ${props.item.model}`}</Text>
                         <Text style={styles.information}>Status: {props.item.status == 1 ? "Ativo" : "Inativo"}</Text>
                         <Text style={styles.information}>Acesso: {props.item.access_password}</Text>
                         <View style={styles.row}>
@@ -92,4 +92,11 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         width: DEVICE_WIDTH * .77,
     },
+    info: {
+        fontSize: RFPercentage(1.5),
+        color: '#FFFFFF',
+        alignSelf: 'flex-start',
+        marginBottom: DEVICE_HEIGHT * .015,
+        fontFamily: 'Montserrat-SemiBold',
+    }
 })
