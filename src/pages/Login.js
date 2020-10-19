@@ -68,9 +68,9 @@ export default function Login() {
                     onChangeText={(value) => setEmail(value)}
                     onSubmitEditing={() => Keyboard.dismiss()}
                 />
-                <User width={DEVICE_WIDTH * .05}
+                <User
+                    width={DEVICE_WIDTH * .05}
                     height={DEVICE_HEIGHT * .05}
-                    style={styles.icon}
                 />
             </View>
             <View style={styles.buttonInput2}>
@@ -86,9 +86,9 @@ export default function Login() {
                     onChangeText={(value) => setPassword(value)}
                     onSubmitEditing={() => Keyboard.dismiss()}
                 />
-                <Lock width={DEVICE_WIDTH * .05}
+                <Lock
+                    width={DEVICE_WIDTH * .05}
                     height={DEVICE_HEIGHT * .05}
-                    style={styles.icon}
                 />
             </View>
 

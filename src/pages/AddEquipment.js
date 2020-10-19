@@ -8,7 +8,7 @@ import { useSelector, useDispatch } from 'react-redux'
 
 import ArrowLeft from '../assets/Icons/arrowLeft.svg'
 import Check from '../assets/Icons/Check.svg'
-import ArrowRight from '../assets/Icons/ArrowRight'
+import ArrowRight from '../assets/Icons/ArrowRight.svg'
 
 export default function PageEquipment() {
     const navigation = useNavigation()
