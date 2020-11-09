@@ -53,7 +53,7 @@ export default function Login() {
 
     return (
         <>
-            <Loader loading={isLoading} color="#ff66be" />
+            <Loader loading={isLoading} color="#7400CA" />
             <View style={styles.container}>
                 <View style={styles.button}>
                     <Image
