@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { StyleSheet, Dimensions, Image, View, StatusBar } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { RFPercentage } from 'react-native-responsive-fontsize'
@@ -9,17 +9,23 @@ import LogoIntergalaxy from '../assets/Imagens/LogoIntergalaxy.png'
 export default function StartPage() {
     const navigation = useNavigation()
 
+    useEffect(() => {
+        setTimeout(() => {
+            navigation.navigate('Login')
+        }, 2000);
+    }, [])
+
     return (
         <>
             <StatusBar barStyle={"light-content"} />
-            <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+            {/* <TouchableOpacity onPress={() => navigation.navigate('Login')}> */}
                 <View style={styles.container}>
                     <Image
                         source={LogoIntergalaxy}
                         style={styles.img}
                     />
                 </View>
-            </TouchableOpacity>
+            {/* </TouchableOpacity> */}
         </>
     )
 }

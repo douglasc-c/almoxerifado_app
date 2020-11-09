@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react'
-import { StyleSheet, Dimensions, Text, View, ScrollView } from 'react-native'
+import { StyleSheet, Dimensions, Text, View, ScrollView, RefreshControl } from 'react-native'
 import { RFPercentage } from 'react-native-responsive-fontsize'
 import { useFocusEffect, useNavigation } from '@react-navigation/native'
 import api from '../services/api'
@@ -10,6 +10,7 @@ import Employeer from '../components/Employeer'
 export default function Home() {
     const navigation = useNavigation()
     const [listEmployeer, setList] = useState([])
+    const [refreshing, setRefreshing] = useState(false)
     const dispatch = useDispatch()
     const redux = useSelector(state => state)
 
@@ -51,13 +52,26 @@ export default function Home() {
         }, [])
     )
 
+    const onRefresh = useCallback(
+        () => {
+            setRefreshing(true)
+            click()
+            setRefreshing(false)
+        }, [],
+    )
+
     return (
         <View style={styles.container}>
             <View style={styles.button}>
                 <Text style={styles.title}>Funcionários adicionados</Text>
             </View>
-            <View style={{height: DEVICE_HEIGHT * .8 }}>
-                <ScrollView showsVerticalScrollIndicator={false} style={{  }}>
+            <View style={{ height: DEVICE_HEIGHT * .8 }}>
+                <ScrollView
+                    refreshControl={
+                        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor="#fff" />
+                    }
+                    showsVerticalScrollIndicator={false}
+                >
                     {
                         listEmployeer.map((item, key) => (
                             <Employeer
@@ -73,7 +87,7 @@ export default function Home() {
                         ))
                     }
                 </ScrollView>
-                <View style={{height: DEVICE_HEIGHT * .04}}></View>
+                <View style={{ height: DEVICE_HEIGHT * .04 }}></View>
             </View>
         </View>
     )

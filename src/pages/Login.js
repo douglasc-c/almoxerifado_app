@@ -4,6 +4,7 @@ import { RFPercentage } from 'react-native-responsive-fontsize'
 import { useNavigation } from '@react-navigation/native'
 import api from '../services/api'
 import { useDispatch, useSelector } from 'react-redux'
+import Loader from "react-native-modal-loader"
 
 import LogoIntergalaxy from '../assets/Imagens/LogoIntergalaxy.png'
 import User from '../assets/Icons/User.svg'
@@ -11,12 +12,14 @@ import Lock from '../assets/Icons/Lock.svg'
 
 export default function Login() {
     const navigation = useNavigation()
+    const [isLoading, setIsLoading] = useState(false)
     const [email, setEmail] = useState()
     const [password, setPassword] = useState()
     const dispatch = useDispatch()
     const redux = useSelector(state => state)
 
     async function onLogin() {
+        setIsLoading(true)
         const response = await api.post('/api/login', { email: email, password: password })
             .then(res => {
                 if (res.data.status) {
@@ -33,6 +36,7 @@ export default function Login() {
                     }
                 }
             })
+        setIsLoading(false)
         return response
     }
 
@@ -48,55 +52,58 @@ export default function Login() {
     }
 
     return (
-        <View style={styles.container}>
-            <View style={styles.button}>
-                <Image
-                    source={LogoIntergalaxy}
-                    style={styles.img}
-                />
-            </View>
-            <Text style={styles.text}>Seja bem-vindo</Text>
-            <View style={styles.buttonInput}>
-                <TextInput
-                    style={styles.input}
-                    placeholderTextColor='#AEADB3'
-                    placeholder='e-mail'
-                    keyboardType="email-address"
-                    autoCorrect={false}
-                    autoCapitalize="none"
-                    value={email}
-                    onChangeText={(value) => setEmail(value)}
-                    onSubmitEditing={() => Keyboard.dismiss()}
-                />
-                <User
-                    width={DEVICE_WIDTH * .05}
-                    height={DEVICE_HEIGHT * .05}
-                />
-            </View>
-            <View style={styles.buttonInput2}>
-                <TextInput
-                    style={styles.input}
-                    placeholder='senha'
-                    secureTextEntry
-                    autoCorrect={false}
-                    autoCapitalize="none"
-                    placeholderTextColor='#AEADB3'
-                    value={password}
-                    blurOnSubmit={false}
-                    onChangeText={(value) => setPassword(value)}
-                    onSubmitEditing={() => Keyboard.dismiss()}
-                />
-                <Lock
-                    width={DEVICE_WIDTH * .05}
-                    height={DEVICE_HEIGHT * .05}
-                />
-            </View>
+        <>
+            <Loader loading={isLoading} color="#ff66be" />
+            <View style={styles.container}>
+                <View style={styles.button}>
+                    <Image
+                        source={LogoIntergalaxy}
+                        style={styles.img}
+                    />
+                </View>
+                <Text style={styles.text}>Seja bem-vindo</Text>
+                <View style={styles.buttonInput}>
+                    <TextInput
+                        style={styles.input}
+                        placeholderTextColor='#AEADB3'
+                        placeholder='e-mail'
+                        keyboardType="email-address"
+                        autoCorrect={false}
+                        autoCapitalize="none"
+                        value={email}
+                        onChangeText={(value) => setEmail(value)}
+                        onSubmitEditing={() => Keyboard.dismiss()}
+                    />
+                    <User
+                        width={DEVICE_WIDTH * .05}
+                        height={DEVICE_HEIGHT * .05}
+                    />
+                </View>
+                <View style={styles.buttonInput2}>
+                    <TextInput
+                        style={styles.input}
+                        placeholder='senha'
+                        secureTextEntry
+                        autoCorrect={false}
+                        autoCapitalize="none"
+                        placeholderTextColor='#AEADB3'
+                        value={password}
+                        blurOnSubmit={false}
+                        onChangeText={(value) => setPassword(value)}
+                        onSubmitEditing={() => Keyboard.dismiss()}
+                    />
+                    <Lock
+                        width={DEVICE_WIDTH * .05}
+                        height={DEVICE_HEIGHT * .05}
+                    />
+                </View>
 
-            <TouchableOpacity style={styles.advanceButton} onPress={() => click()}>
-                <Text style={styles.text2}>entrar</Text>
-            </TouchableOpacity>
+                <TouchableOpacity style={styles.advanceButton} onPress={() => click()}>
+                    <Text style={styles.text2}>entrar</Text>
+                </TouchableOpacity>
 
-        </View>
+            </View>
+        </>
     )
 }
 

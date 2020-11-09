@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react'
-import { StyleSheet, Dimensions, Text, View, ScrollView } from 'react-native'
+import { StyleSheet, Dimensions, Text, View, ScrollView, RefreshControl} from 'react-native'
 import { RFPercentage } from 'react-native-responsive-fontsize'
 import { useFocusEffect, useNavigation } from '@react-navigation/native'
 import api from '../services/api'
@@ -11,6 +11,7 @@ export default function Equipment() {
     const navigation = useNavigation()
     const [listEquipment, setList] = useState([])
     const [listUser, setListUser] = useState([])
+    const [refreshing, setRefreshing] = useState(false)
     const dispatch = useDispatch()
 
     function navi(item) {
@@ -52,13 +53,26 @@ export default function Equipment() {
         }, [])
     )
 
+    const onRefresh = useCallback(
+        () => {
+            setRefreshing(true)
+            click()
+            setRefreshing(false)
+        }, [],
+    )
+
     return (
         <View style={styles.container}>
             <View style={styles.button}>
                 <Text style={styles.title}>Equipamentos adicionados</Text>
             </View>
             <View style={{ height: DEVICE_HEIGHT * .8 }}>
-                <ScrollView showsVerticalScrollIndicator={false}>
+                <ScrollView
+                    refreshControl={
+                        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor="#fff" />
+                    }
+                    showsVerticalScrollIndicator={false}
+                >
                     {
                         listEquipment.map((item, key) => (
                             <ButtonEquipment
@@ -73,7 +87,7 @@ export default function Equipment() {
                         ))
                     }
                 </ScrollView>
-                <View style={{height: DEVICE_HEIGHT * .04}}></View>
+                <View style={{ height: DEVICE_HEIGHT * .04 }}></View>
             </View>
         </View>
     )
